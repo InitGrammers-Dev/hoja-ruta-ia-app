@@ -1,5 +1,5 @@
 {
-  "name": "@ai-roadmap/api",
+  "name": "@hoja-ruta-ia-app/api",
   "version": "0.1.0",
   "main": "src/index.ts",
   "scripts": {
@@ -7,7 +7,15 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
-    "hono": "^3.3.5",
-    "zod": "^3.21.4"
+    "hono": "^4.9.0",
+    "zod": "^4.0.17"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^24.2.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
   }
 }
