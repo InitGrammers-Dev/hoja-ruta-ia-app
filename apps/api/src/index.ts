@@ -2,6 +2,7 @@ declare const Bun: any
 
 import { Hono } from 'hono'
 import { z } from 'zod'
+import { callGemini } from './services/gemini'
 
 const app = new Hono()
 
@@ -15,18 +16,22 @@ app.post('/generate-roadmap', async (c) => {
     const body = await c.req.json()
     const parsed = generateRoadmapSchema.parse(body)
 
-    // Aquí llamarías a la API Gemini (por ahora simulamos)
-    const roadmap = {
-      topic: parsed.topic,
-      modules: [
-        { id: 1, title: 'Introducción', content: 'Contenido básico...' },
-        { id: 2, title: 'Avanzado', content: 'Contenido avanzado...' }
-      ]
+    // payload genérico para Gemini
+    const payload = {
+      model: process.env.GEMINI_MODEL ?? 'gemini-lite',
+      input: {
+        prompt: `Genera un roadmap de aprendizaje por módulos para el tema: ${parsed.topic}. Devuélvelo en JSON con 'modules': [{title, summary, resources}]`,
+        max_output_tokens: 800
+      }
     }
 
-    return c.json({ roadmap })
+    // Llamada a Gemini
+    const gResp = await callGemini(payload)
+
+    // Si la respuesta es texto o estructura distinta, parsea/valídala aquí antes de devolver.
+    return c.json({ fromGemini: gResp })
   } catch (error) {
-    return c.json({ error: error instanceof Error ? error.message : 'Error desconocido' }, 400)
+    return c.json({ error: error instanceof Error ? error.message :  String(error) }, 400)
   }
 })
 
