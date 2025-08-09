@@ -26,7 +26,7 @@ app.post('/generate-roadmap', async (c) => {
 
     return c.json({ roadmap })
   } catch (error) {
-    return c.json({ error: error.message }, 400)
+    return c.json({ error: error instanceof Error ? error.message : 'Error desconocido' }, 400)
   }
 })
 
