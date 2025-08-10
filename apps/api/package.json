@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "@hoja-ruta-ia-app/api",
+  "name": "@hoja-ruta-ia/api",
   "version": "0.1.0",
   "main": "src/index.ts",
   "scripts": {
@@ -8,6 +8,7 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@hoja-ruta-ia/db": "*",
     "@google/genai": "^1.13.0",
     "dotenv": "^17.2.1",
     "hono": "^4.9.0",

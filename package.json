@@ -9,6 +9,11 @@
   ],
   "scripts": {
     "bootstrap": "npm install",
-    "dev": "echo \"Ejecuta los scripts por paquete (apps/* o packages/*)\""
+    "dev": "echo \"Ejecuta los scripts por paquete (apps/* o packages/*)\"",
+    "build": "echo \"Ejecuta el build por paquete\"",
+    "test": "echo \"Ejecuta los tests por paquete\""
+  },
+  "devDependencies": {
+    "@types/pg": "^8.15.5"
   }
 }
