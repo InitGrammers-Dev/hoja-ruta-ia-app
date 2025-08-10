@@ -3,6 +3,8 @@ declare const Bun: any
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { callGemini } from './services/gemini'
+import { saveRoadmap } from '@hoja-ruta-ia/db';
+import type { RoadmapContent } from '@hoja-ruta-ia/db';
 import 'dotenv/config'; // cargar variables de entorno .env
 
 const app = new Hono()
@@ -43,8 +45,17 @@ app.post('/generate-roadmap', async (c) => {
       }
     `;
 
-    const roadmap = await callGemini(prompt);
-    return c.json({ roadmap });
+    const roadmapJson = await callGemini(prompt);
+    // Validar el formato que devuelve Gemini (opcional pero recomendable)
+    const content: RoadmapContent = roadmapJson;
+
+    // Guardar en la base de datos
+    const savedRoadmap = await saveRoadmap(topic, content);
+
+    return c.json({
+      success: true,
+      data: savedRoadmap,
+    });
   } catch (error) {
     return c.json({ error: error instanceof Error ? error.message : String(error) }, 400);
   }

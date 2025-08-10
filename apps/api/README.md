@@ -1,4 +1,3 @@
-# @ai-roadmap/api
 
 To install dependencies:
 
