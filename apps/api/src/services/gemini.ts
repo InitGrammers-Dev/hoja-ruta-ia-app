@@ -1,27 +1,52 @@
-export type GeminiResponse = any
+import 'dotenv/config'
+import type { RoadmapResponse } from "../types/roadmap"
 
-export async function callGemini(payload: unknown): Promise<GeminiResponse> {
-  const endpoint = process.env.GEMINI_API_ENDPOINT
-  const key = process.env.GEMINI_API_KEY
+export async function callGemini(prompt: string): Promise<RoadmapResponse> {
+  const apiKey = process.env.GEMINI_API_KEY
 
-  if (!endpoint || !key) {
-    throw new Error('Falta configurar GEMINI_API_ENDPOINT o GEMINI_API_KEY en env')
+  if (!apiKey) {
+    throw new Error("Falta la clave GEMINI_API_KEY en el .env")
   }
 
-  const res = await fetch(endpoint, {
-    method: 'POST',
+  const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+
+  const body = {
+    contents: [
+      {
+        parts: [
+          {
+            text: prompt
+          }
+        ]
+      }
+    ]
+  }
+
+  const res = await fetch(url, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${key}`,
+      "Content-Type": "application/json",
+      "X-goog-api-key": apiKey
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body)
   })
 
+  const data: any = await res.json()
+
   if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Gemini API error ${res.status}: ${text}`)
+    throw new Error(data.error?.message || "Error llamando a la API Gemini")
   }
 
-  const data = await res.json()
-  return data
+  const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text
+
+  if (!rawText) {
+    throw new Error("La respuesta de Gemini no contiene texto")
+  }
+
+  const cleanedText = rawText
+    .replace(/^\s*```json\s*/i, '')
+    .replace(/\s*```$/, '')
+    .trim()
+
+  return JSON.parse(cleanedText) as RoadmapResponse
 }
