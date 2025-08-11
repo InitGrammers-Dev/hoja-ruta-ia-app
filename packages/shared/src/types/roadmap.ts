@@ -11,9 +11,13 @@ export type Module = {
   resources: Resource[];
 };
 
+export type RoadmapContent = {
+  modules: Module[];
+};
+
 export type Roadmap = {
-  id?: string;
-  topic?: string;
-  content?: { modules: Module[] } | Module[];
-  createdAt?: string;
+  id: string;
+  topic: string;
+  content: RoadmapContent;
+  createdAt: string;
 };

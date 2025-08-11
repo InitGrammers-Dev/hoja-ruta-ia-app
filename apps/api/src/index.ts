@@ -6,7 +6,7 @@ import { callGemini } from './services/gemini'
 import { saveRoadmap } from '@hoja-ruta-ia/db';
 import { getRoadmapById } from '@hoja-ruta-ia/db';
 import { getRoadmaps } from '@hoja-ruta-ia/db';
-import type { RoadmapContent } from '@hoja-ruta-ia/db';
+import type { RoadmapContent } from '@hoja-ruta-ia/shared';
 import 'dotenv/config'; // cargar variables de entorno .env
 
 const app = new Hono()

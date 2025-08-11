@@ -1,13 +1,14 @@
 {
   "name": "@hoja-ruta-ia/db",
   "version": "0.1.0",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "scripts": {
     "migrate": "drizzle-kit migrate",
     "generate": "drizzle-kit generate",
-    "dev": "bun run src/index.ts"
+    "dev": "bun run index.ts"
   },
   "dependencies": {
+    "@hoja-ruta-ia/shared": "*",
     "drizzle-orm": "latest",
     "pg": "^8.11.0"
   },
