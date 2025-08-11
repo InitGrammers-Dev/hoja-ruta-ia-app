@@ -4,6 +4,7 @@ import { Hono } from 'hono'
 import { z } from 'zod'
 import { callGemini } from './services/gemini'
 import { saveRoadmap } from '@hoja-ruta-ia/db';
+import { getRoadmapById } from '@hoja-ruta-ia/db';
 import type { RoadmapContent } from '@hoja-ruta-ia/db';
 import 'dotenv/config'; // cargar variables de entorno .env
 
@@ -58,6 +59,25 @@ app.post('/generate-roadmap', async (c) => {
     });
   } catch (error) {
     return c.json({ error: error instanceof Error ? error.message : String(error) }, 400);
+  }
+});
+
+app.get('/roadmaps/:id', async (c) => {
+  try {
+    const id = c.req.param('id');
+    if (!id) {
+      return c.json({ error: 'ID requerido' }, 400);
+    }
+
+    const roadmap = await getRoadmapById(id);
+
+    if (!roadmap) {
+      return c.json({ error: 'Roadmap no encontrado' }, 404);
+    }
+
+    return c.json({ success: true, data: roadmap }, 200);
+  } catch (error) {
+    return c.json({ error: error instanceof Error ? error.message : String(error) }, 500);
   }
 });
 

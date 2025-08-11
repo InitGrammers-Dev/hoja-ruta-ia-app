@@ -11,6 +11,15 @@ export type Module = {
   resources: Resource[]
 }
 
+// Esto representa solo la propiedad `content`
 export type RoadmapResponse = {
   modules: Module[]
+}
+
+// Esto representa el roadmap completo que devuelve tu API
+export type Roadmap = {
+  id: string
+  topic: string
+  content: RoadmapResponse
+  createdAt: string
 }
