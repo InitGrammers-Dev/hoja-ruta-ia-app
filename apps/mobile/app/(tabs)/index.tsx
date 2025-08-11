@@ -29,6 +29,7 @@ export default function HomeScreen() {
       setLoading(true);
       const roadmap = await generateRoadmap(topic.trim());
       setLoading(false);
+      setTopic('');
       router.push({
         pathname: '/roadmap',
         params: { roadmap: JSON.stringify(roadmap) },

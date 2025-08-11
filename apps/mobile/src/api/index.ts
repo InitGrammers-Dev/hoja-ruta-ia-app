@@ -22,3 +22,17 @@ export async function generateRoadmap(topic: string) {
   if (!res.ok) throw new Error(json.error || "Error generando roadmap");
   return json.data ?? json.roadmap;
 }
+
+export async function fetchRoadmaps() {
+  const res = await fetch(`${API_BASE}/roadmaps`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Error obteniendo roadmaps");
+  return json.data ?? json;
+}
+
+export async function fetchRoadmapById(id: string) {
+  const res = await fetch(`${API_BASE}/roadmaps/${encodeURIComponent(id)}`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Error obteniendo roadmap");
+  return json.data ?? json;
+}
