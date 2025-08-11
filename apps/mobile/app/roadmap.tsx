@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   LayoutAnimation,
-  Platform,
-  UIManager,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 

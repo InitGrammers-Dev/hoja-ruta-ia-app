@@ -1,6 +1,6 @@
 import { serverApp as app } from "../index";
 import { serve } from "bun";
-import type { RoadmapResponse } from "../types/roadmap";
+import type { RoadmapContent } from "@hoja-ruta-ia/shared";
 import * as geminiService from "../services/gemini";
 import * as dbService from "@hoja-ruta-ia/db";
 
@@ -15,7 +15,7 @@ beforeAll(() => {
         resources: [{ type: "article", title: "Mock Resource", description: "Mock desc" }],
       },
     ],
-  } satisfies RoadmapResponse));
+  } satisfies RoadmapContent));
 
   jest.spyOn(dbService, "saveRoadmap").mockImplementation(async (topic, content) => {
     return {

@@ -1,20 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { db } from "./client";
 import { roadmaps } from "./schema";
-import { desc } from "drizzle-orm";
-
-export type RoadmapContent = {
-  modules: Array<{
-    title: string;
-    summary: string;
-    resources: Array<{
-      type: string;
-      title: string;
-      description: string;
-      url?: string;
-    }>;
-  }>;
-};
+import type { RoadmapContent } from '@hoja-ruta-ia/shared';
 
 async function generateNextId(): Promise<string> {
   return `HRIA-${uuidv4()}`;
