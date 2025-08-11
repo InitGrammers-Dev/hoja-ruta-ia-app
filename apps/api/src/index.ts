@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { callGemini } from './services/gemini'
 import { saveRoadmap } from '@hoja-ruta-ia/db';
 import { getRoadmapById } from '@hoja-ruta-ia/db';
+import { getRoadmaps } from '@hoja-ruta-ia/db';
 import type { RoadmapContent } from '@hoja-ruta-ia/db';
 import 'dotenv/config'; // cargar variables de entorno .env
 
@@ -78,6 +79,18 @@ app.get('/roadmaps/:id', async (c) => {
     return c.json({ success: true, data: roadmap }, 200);
   } catch (error) {
     return c.json({ error: error instanceof Error ? error.message : String(error) }, 500);
+  }
+});
+
+app.get('/roadmaps', async (c) => {
+  try {
+    const allRoadmaps = await getRoadmaps();
+    return c.json({ success: true, data: allRoadmaps }, 200);
+  } catch (error) {
+    return c.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      500
+    );
   }
 });
 

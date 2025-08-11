@@ -39,3 +39,11 @@ export async function getRoadmapById(id: string) {
 
   return roadmap || null;
 }
+
+export async function getRoadmaps() {
+  const roadmapsList = await db.query.roadmaps.findMany({
+    orderBy: (table, { desc }) => [desc(table.createdAt)],
+  });
+
+  return roadmapsList;
+}
