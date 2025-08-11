@@ -2,6 +2,7 @@ import { serverApp as app } from "../index";
 import { serve } from "bun";
 import type { RoadmapResponse } from "../types/roadmap";
 import * as geminiService from "../services/gemini";
+import * as dbService from "@hoja-ruta-ia/db";
 
 let server: ReturnType<typeof Bun.serve>;
 
@@ -15,6 +16,15 @@ beforeAll(() => {
       },
     ],
   } satisfies RoadmapResponse));
+
+  jest.spyOn(dbService, "saveRoadmap").mockImplementation(async (topic, content) => {
+    return {
+      id: "HRIA-0001",
+      topic,
+      content,
+      createdAt: new Date().toISOString(),
+    } as any;
+  });
 
   server = serve({
     port: 4000,
@@ -34,9 +44,10 @@ test("debe devolver un roadmap válido (mock)", async () => {
     body: JSON.stringify({ topic: "React" }),
   });
 
-  const json = await res.json() as { roadmap: RoadmapResponse };
+  const json = await res.json() as { success: boolean; data: any };
 
   expect(res.status).toBe(200);
-  expect(json.roadmap.modules).toBeDefined();
-  expect(Array.isArray(json.roadmap.modules)).toBe(true);
+  expect(dbService.saveRoadmap).toHaveBeenCalledTimes(1);
+  expect(json.data).toBeDefined();
+  expect(json.data.id).toBe("HRIA-0001");
 });

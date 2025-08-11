@@ -1,6 +1,6 @@
 import { serverApp as app } from "../index";
 import { serve } from "bun";
-import type { RoadmapResponse } from "../types/roadmap";
+import type { Roadmap } from "../types/roadmap";
 
 let server: ReturnType<typeof Bun.serve>;
 
@@ -24,20 +24,19 @@ test("debe devolver un roadmap real (sin mocks)", async () => {
 
   expect(res.status).toBe(200);
 
-  const json = (await res.json()) as { roadmap: RoadmapResponse };
+  const json = await res.json() as { success: boolean; data: Roadmap };
 
-  // Comprobaciones básicas
-  expect(json.roadmap).toBeDefined();
-  expect(Array.isArray(json.roadmap.modules)).toBe(true);
-  expect(json.roadmap.modules.length).toBeGreaterThan(0);
+  const roadmap = json.data;
 
-  // Validar estructura de cada módulo
-  for (const module of json.roadmap.modules) {
+  expect(roadmap).toBeDefined();
+  expect(Array.isArray(roadmap.content.modules)).toBe(true);
+  expect(roadmap.content.modules.length).toBeGreaterThan(0);
+
+  for (const module of roadmap.content.modules) {
     expect(typeof module.title).toBe("string");
     expect(typeof module.summary).toBe("string");
     expect(Array.isArray(module.resources)).toBe(true);
 
-    // Validar estructura de cada recurso dentro del módulo
     for (const resource of module.resources) {
       expect(typeof resource.type).toBe("string");
       expect(typeof resource.title).toBe("string");
