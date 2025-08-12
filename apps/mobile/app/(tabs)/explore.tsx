@@ -3,12 +3,14 @@ import {
   View,
   Text,
   FlatList,
-  TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
   StyleSheet,
+  Pressable,
+  useColorScheme,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { fetchRoadmaps, fetchRoadmapById } from "@/src/api";
 
@@ -17,6 +19,7 @@ export default function ExploreTab() {
   const [loading, setLoading] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const router = useRouter();
+  const isDark = useColorScheme() === "dark";
 
   const load = useCallback(async () => {
     try {
@@ -73,7 +76,7 @@ export default function ExploreTab() {
 
   if (loading && items.length === 0) {
     return (
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <SafeAreaView style={[styles.safeArea, isDark && styles.safeAreaDark]} edges={['top']}>
         <View style={styles.center}>
           <ActivityIndicator size="large" />
         </View>
@@ -82,24 +85,34 @@ export default function ExploreTab() {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={[styles.safeArea, isDark && styles.safeAreaDark]} edges={['top', 'left', 'right']}>
       <FlatList
         data={items}
         keyExtractor={(it, idx) => `${it.id ?? it.topic ?? idx}`}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.item} onPress={() => openRoadmap(item)}>
+          <Pressable
+            android_ripple={{ color: isDark ? "#333" : "#ccc" }}
+            style={({ pressed }) => [
+              styles.item,
+              isDark && styles.itemDark,
+              pressed && { opacity: 0.85 },
+            ]}
+            onPress={() => openRoadmap(item)}
+          >
             <View style={styles.itemHeader}>
-              <Text style={styles.title}>{item.topic ?? item.id ?? "Sin título"}</Text>
-              <Text style={styles.arrow}>➡️</Text>
+              <Text style={[styles.title, isDark && styles.titleDark]}>
+                {item.topic ?? item.id ?? "Sin título"}
+              </Text>
+              <Ionicons name="chevron-forward" size={20} color={isDark ? "#ccc" : "#555"} />
             </View>
             {item.createdAt ? (
-              <Text style={styles.subtitle}>
+              <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>
                 Creado: {new Date(item.createdAt).toLocaleString()}
               </Text>
             ) : null}
-          </TouchableOpacity>
+          </Pressable>
         )}
         ListEmptyComponent={() => (
           <View style={styles.center}>
@@ -115,6 +128,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#f7f7f7",
+  },
+  safeAreaDark: {
+    backgroundColor: "#000",
   },
   listContent: {
     padding: 12,
@@ -137,6 +153,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 2,
   },
+  itemDark: {
+    backgroundColor: "#1c1c1e",
+    borderColor: "#333",
+  },
   itemHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -148,12 +168,15 @@ const styles = StyleSheet.create({
     color: "#333",
     flexShrink: 1,
   },
-  arrow: {
-    fontSize: 18,
+  titleDark: {
+    color: "#fff",
   },
   subtitle: {
     color: "#777",
     marginTop: 8,
     fontSize: 12,
+  },
+  subtitleDark: {
+    color: "#aaa",
   },
 });
