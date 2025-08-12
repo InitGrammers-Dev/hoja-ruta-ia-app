@@ -136,4 +136,6 @@ Luego crear un Pull Request, hacer revisión y merge.
 
 ### 🎥 Demo
 
-https://github.com/InitGrammers-Dev/hoja-ruta-ia-app/raw/refs/heads/main/docs/demo-local.mp4
+<video width="600" controls>
+  <source src="https://github.com/InitGrammers-Dev/hoja-ruta-ia-app/raw/refs/heads/main/docs/demo-local.mp4" type="video/mp4" />
+</video>
