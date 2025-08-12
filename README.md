@@ -133,3 +133,7 @@ Luego crear un Pull Request, hacer revisión y merge.
 - **Backend:** `apps/api/src/`
 - **Base de datos:** `packages/db/src/`
 - **App móvil:** `apps/mobile/app/`, `apps/mobile/src/api/`
+
+### 🎥 Demo
+
+<video src="docs/demo-local.mp4" controls width="300">
