@@ -11,7 +11,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { fetchRoadmaps, fetchRoadmapById } from "@/src/api";
-import type { Roadmap } from "@/src/types/roadmap";
 
 export default function ExploreTab() {
   const [items, setItems] = useState<Array<any>>([]);
