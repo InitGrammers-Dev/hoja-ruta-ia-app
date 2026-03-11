@@ -53,7 +53,7 @@ hoja-ruta-ia-app/
 
 1. **Clonar y configurar proyecto**
 ```bash
-git clone https://github.com/InitGrammers-Dev/hoja-ruta-ia-app.git
+git clone https://github.com/IA-Code-App/hoja-ruta-ia-app.git
 
 cd hoja-ruta-ia-app
 
@@ -137,7 +137,3 @@ Luego crear un Pull Request, hacer revisión y merge.
 - **Backend:** `apps/api/src/`
 - **Base de datos:** `packages/db/src/`
 - **App móvil:** `apps/mobile/app/`, `apps/mobile/src/api/`
-
-### 🎥 Demo
-
-[Ver demo en video](https://github.com/InitGrammers-Dev/hoja-ruta-ia-app/raw/refs/heads/main/docs/demo-local.mp4)
