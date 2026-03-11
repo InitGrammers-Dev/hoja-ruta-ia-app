@@ -54,7 +54,9 @@ hoja-ruta-ia-app/
 1. **Clonar y configurar proyecto**
 ```bash
 git clone https://github.com/InitGrammers-Dev/hoja-ruta-ia-app.git
+
 cd hoja-ruta-ia-app
+
 npm install
 ```
 
@@ -123,7 +125,9 @@ Los tests unitarios mockean Gemini, mientras que los tests de integración requi
 git checkout -b feature/mi-feature
 # realizar cambios...
 git add .
+
 git commit -m "feat(api): agregar endpoint X"
+
 git push -u origin feature/mi-feature
 ```
 Luego crear un Pull Request, hacer revisión y merge.
